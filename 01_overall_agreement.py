@@ -122,4 +122,69 @@ print('dataframe out of function:', df2022.columns)
 df2022 = set_order(df2022, coincidence='Coincidencia2022')
 df2022 = nan_filler(df2022, email= 'email1', coincidence='Coincidencia2022', count='count')
 df2022.to_csv('./analisisresults/resultados2022.csv')
+# %%
+# Mergin annual csvs
+# 2000-2008
+df2000 = df2000.rename(columns={"Coincidencia2000": "Coincidencia"})
+df2008 = df2008.rename(columns={"Coincidencia2008": "Coincidencia"})
+df2000_2008 = df2000.merge(df2008, how='outer', on=['email1', 'Coincidencia'])
+df2000_2008 = df2000_2008.rename(columns={'count_x':'2000', 'count_y':'2008'})
+#%%
+# 2008-2012
+df2012 = df2012.rename(columns={"Coincidencia2012": "Coincidencia"})
+df2008_2012 = df2000_2008.merge(df2012, how='outer', on=['email1', 'Coincidencia'])
+df2008_2012 = df2008_2012.rename(columns={'count':'2012'})
+#%%
+#2012-2013
+df2013 = df2013.rename(columns={"Coincidencia2013": "Coincidencia"})
+df2012_2013 = df2008_2012.merge(df2013, how='outer', on=['email1', 'Coincidencia'])
+df2012_2013 = df2012_2013.rename(columns={'count':'2013'})
+#%%
+#2013-2014
+df2014 = df2014.rename(columns={"Coincidencia2014": "Coincidencia"})
+df2013_2014 = df2012_2013.merge(df2014, how='outer', on=['email1', 'Coincidencia'])
+df2013_2014 = df2013_2014.rename(columns={'count':'2014'})
+#%%
+#2014-2015
+df2015 = df2015.rename(columns={"Coincidencia2015": "Coincidencia"})
+df2014_2015 = df2013_2014.merge(df2015, how='outer', on=['email1', 'Coincidencia'])
+df2014_2015 = df2014_2015.rename(columns={'count':'2015'})
+#%%
+#2015-2016
+df2016 = df2016.rename(columns={"Coincidencia2016": "Coincidencia"})
+df2015_2016 = df2014_2015.merge(df2016, how='outer', on=['email1', 'Coincidencia'])
+df2015_2016 = df2015_2016.rename(columns={'count':'2016'})
+#%%
+#2016-2017
+df2017 = df2017.rename(columns={"Coincidencia2017": "Coincidencia"})
+df2016_2017 = df2015_2016.merge(df2017, how='outer', on=['email1', 'Coincidencia'])
+df2016_2017 = df2016_2017.rename(columns={'count':'2017'})
+#%%
+#2017-2018
+df2018 = df2018.rename(columns={"Coincidencia2018": "Coincidencia"})
+df2017_2018 = df2016_2017.merge(df2018, how='outer', on=['email1', 'Coincidencia'])
+df2017_2018 = df2017_2018.rename(columns={'count':'2018'})
+#%%
+#2018-2019
+df2019 = df2019.rename(columns={"Coincidencia2019": "Coincidencia"})
+df2018_2019 = df2017_2018.merge(df2019, how='outer', on=['email1', 'Coincidencia'])
+df2018_2019 = df2018_2019.rename(columns={'count':'2019'})
+#%%
+#2019-2020
+df2020 = df2020.rename(columns={"Coincidencia2020": "Coincidencia"})
+df2019_2020 = df2018_2019.merge(df2020, how='outer', on=['email1', 'Coincidencia'])
+df2019_2020 = df2019_2020.rename(columns={'count':'2020'})
+#%%
+#2020-2021
+df2021 = df2021.rename(columns={"Coincidencia2021": "Coincidencia"})
+df2020_2021 = df2019_2020.merge(df2021, how='outer', on=['email1', 'Coincidencia'])
+df2020_2021 = df2020_2021.rename(columns={'count':'2021'})
+#%%
+#2021-2022
+df2022 = df2022.rename(columns={"Coincidencia2022": "Coincidencia"})
+df2021_2022 = df2020_2021.merge(df2022, how='outer', on=['email1', 'Coincidencia'])
+df2021_2022 = df2021_2022.rename(columns={'count':'2022'})
+df2021_2022.to_csv('./analisisresults/resultadosALLYEARS_tecnico1.csv')
+
+
 
