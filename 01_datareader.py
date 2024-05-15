@@ -8,13 +8,16 @@ import fiona
 
 #%%
 # Path definitions
-rutageneral = '/Users/erith/Dropbox/Comun/FAO_LAC/2023/Ecuador/08_CSVsInterpretacion/Todos/Finales/01_BSVTBA'
-foldermes = '04_Octubre'
-folderdia ='02102023'
+# rutageneral = '/Users/erith/Dropbox/Comun/FAO_LAC/2023/Ecuador/08_CSVsInterpretacion/Todos/Finales/01_BSVTBA'
+rutageneral = './MAATE2023/Estratos2/10_NBE'
+#foldermes = '04_Octubre'
+foldermes = 'final'
+folderdia ='11042024'
 folder1 = 'Tecnicos'
 folder2 = 'Especialistas'
-filenameE='ceo-PROY.-INTERP.-BSVTBA-(19-ESPECIALISTAS-USFQ)-v2-sample-data-2023-10-02.csv'
-filenameJ='ceo-PROY.-INTERP.-BSVTBA-(38-TECNICOS-JUNIOR-USFQ)-sample-data-2023-10-02.csv'
+filenameE='ceo-PROY.-INTERP.-NO-BOSQUE-ESTABLE-(16-ESPECIALISTAS-USFQ)-sample-data-2024-04-11.csv'
+filenameJ='ceo-PROY.-INTERP.-NO-BOSQUE-ESTABLE-(32-TECNICOS-JUNIOR-USFQ)-sample-data-2024-04-11.csv'
+
 
 #%%
 # Reading files for specialists
@@ -22,8 +25,10 @@ rutames = os.path.join(rutageneral, foldermes)
 rutadia = os.path.join(rutames, folderdia)
 rutafileE = os.path.join(rutadia, folder2, filenameE)
 fileE=pd.read_csv(rutafileE)
+print(fileE.columns)
 gdfE = gpd.GeoDataFrame(fileE, geometry=gpd.points_from_xy(fileE.lon, fileE.lat), crs="EPSG:4326")
 print(gdfE.columns)
+print("Size of the especialist file:", gdfE.shape)
 print('Numero Total de parcelas en interpretes especialistas: ', gdfE.plotid.value_counts())
 #gdfE.dropna(subset=['email'], inplace=True)
 #print('Numero de parcelas avanzadas en interpretes especialistas: ', gdfE.plotid.value_counts())
@@ -31,7 +36,9 @@ print('Numero Total de parcelas en interpretes especialistas: ', gdfE.plotid.val
 # %%
 ciclo = 1
 if ciclo == 1:
-    gdfTemplate = gdfE[["plotid", "sampleid", "lon", "lat", "geometry", "pl_id", "pl_cluster", "pl_monimages"]]
+    #gdfTemplate = gdfE[["plotid", "sampleid", "lon", "lat", "geometry", "pl_id", "pl_cluster", "pl_mon_images"]]
+    # for data without pl_id use the next line
+    gdfTemplate = gdfE[["plotid", "sampleid", "lon", "lat", "geometry", "pl_cluster", "pl_mon_images"]]
     gdfTemplate['email1'] = ''
     gdfTemplate['email2'] = np.nan
     gdfTemplate['email3'] = ''
@@ -167,7 +174,8 @@ gdfJ = gpd.GeoDataFrame(fileJ, geometry=gpd.points_from_xy(fileJ.lon, fileJ.lat)
 #gdfJ.drop_duplicates(subset=['geometry'], inplace=True)
 print(gdfJ.columns)
 print('Numero de parcelas en interpretes juniors: ', gdfJ.plotid.value_counts())
-gdfJ.dropna(subset=['email'], inplace=True)
+print("Size of the juniors file:", gdfJ.shape)
+#gdfJ.dropna(subset=['email'], inplace=True)
 #print('Numero de parcelas avanzadas en interpretes juniors: ', gdfJ.plotid.value_counts())
 
 # %%
@@ -336,5 +344,5 @@ for index, row in gdfJ2.iterrows():
 print("Tercera interpretacion: ", gdfGeneral['email3'].value_counts())
 # %%
 # save as csv
-gdfGeneral.to_csv("./Datos/Ecuador/BSVTBA/ResultadosInterpretacion_BSVTBA_02102023.csv")
+gdfGeneral.to_csv("./MAATE2023/Resultados2/10_NBE/ResultadosInterpretacion_NBE_04112024.csv")
 print("The CSV file has been created!")

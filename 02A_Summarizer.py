@@ -8,13 +8,16 @@ import fiona
 from shapely import wkt
 # %%
 # Reading the datafile
-fullfile = pd.read_csv("./Datos/Ecuador/BSVTBA/ResultadosInterpretacion_BSVTBA_02102023.csv")
+fullfile = pd.read_csv("./MAATE2023/Resultados2/10_NBE/ResultadosInterpretacion_NBE_04112024.csv")
 print(fullfile.head(10))
 fullfile['geometry'] = fullfile['geometry'].apply(wkt.loads)
 gdf = gpd.GeoDataFrame(fullfile, crs="EPSG:4326")
 # %%
 # Selection of changes columns and deleting the previous dataframes
-gdfSel = gdf[["plotid", "sampleid", "lon", "lat", "geometry", "pl_id", "pl_cluster", "pl_monimages", "email1", "email2", "email3", "Cambio0008_1", "Cambio0008_2", "Cambio0008_3", "Cambio0812_1", "Cambio0812_2", "Cambio0812_3", "Cambio1213_1", "Cambio1213_2", "Cambio1213_3", "Cambio1314_1", "Cambio1314_2", "Cambio1314_3", "Cambio1415_1", "Cambio1415_2", "Cambio1415_3", "Cambio1516_1", "Cambio1516_2", "Cambio1516_3", "Cambio1617_1", "Cambio1617_2", "Cambio1617_3", "Cambio1718_1", "Cambio1718_2", "Cambio1718_3", "Cambio1819_1", "Cambio1819_2", "Cambio1819_3", "Cambio1920_1", "Cambio1920_2", "Cambio1920_3", "Cambio2021_1", "Cambio2021_2", "Cambio2021_3", "Cambio2122_1", "Cambio2122_2", "Cambio2122_3"]]
+#gdfSel = gdf[["plotid", "sampleid", "lon", "lat", "geometry", "pl_id", "pl_cluster", "pl_mon_images", "email1", "email2", "email3", "Cambio0008_1", "Cambio0008_2", "Cambio0008_3", "Cambio0812_1", "Cambio0812_2", "Cambio0812_3", "Cambio1213_1", "Cambio1213_2", "Cambio1213_3", "Cambio1314_1", "Cambio1314_2", "Cambio1314_3", "Cambio1415_1", "Cambio1415_2", "Cambio1415_3", "Cambio1516_1", "Cambio1516_2", "Cambio1516_3", "Cambio1617_1", "Cambio1617_2", "Cambio1617_3", "Cambio1718_1", "Cambio1718_2", "Cambio1718_3", "Cambio1819_1", "Cambio1819_2", "Cambio1819_3", "Cambio1920_1", "Cambio1920_2", "Cambio1920_3", "Cambio2021_1", "Cambio2021_2", "Cambio2021_3", "Cambio2122_1", "Cambio2122_2", "Cambio2122_3"]]
+# for id columns
+gdfSel = gdf[["plotid", "sampleid", "lon", "lat", "geometry", "pl_cluster", "pl_mon_images", "email1", "email2", "email3", "Cambio0008_1", "Cambio0008_2", "Cambio0008_3", "Cambio0812_1", "Cambio0812_2", "Cambio0812_3", "Cambio1213_1", "Cambio1213_2", "Cambio1213_3", "Cambio1314_1", "Cambio1314_2", "Cambio1314_3", "Cambio1415_1", "Cambio1415_2", "Cambio1415_3", "Cambio1516_1", "Cambio1516_2", "Cambio1516_3", "Cambio1617_1", "Cambio1617_2", "Cambio1617_3", "Cambio1718_1", "Cambio1718_2", "Cambio1718_3", "Cambio1819_1", "Cambio1819_2", "Cambio1819_3", "Cambio1920_1", "Cambio1920_2", "Cambio1920_3", "Cambio2021_1", "Cambio2021_2", "Cambio2021_3", "Cambio2122_1", "Cambio2122_2", "Cambio2122_3"]]
+
 del gdf
 del fullfile
 
@@ -400,8 +403,12 @@ print("Tipos de coincidencia 1920: ", gdfSel['Coincidencia1920'].value_counts())
 print("Tipos de coincidencia 2021: ", gdfSel['Coincidencia2021'].value_counts())
 print("Tipos de coincidencia 2122: ", gdfSel['Coincidencia2122'].value_counts())
 # %%
-gdfchange = gdfSel[["plotid", "sampleid", "lon", "lat", "geometry", "pl_id", "pl_cluster", "pl_monimages", "email1", "email2", "email3", 'Cambio0008', 'Coincidencia0008', 'Cambio0812', 'Coincidencia0812', 'Cambio1213', 'Coincidencia1213', 'Cambio1314', 'Coincidencia1314', 'Cambio1415', 'Coincidencia1415', 'Cambio1516', 'Coincidencia1516', 'Cambio1617', 'Coincidencia1617', 'Cambio1718', 'Coincidencia1718', 'Cambio1819', 'Coincidencia1819', 'Cambio1920', 'Coincidencia1920', 'Cambio2021', 'Coincidencia2021', 'Cambio2122', 'Coincidencia2122']]
-aggregation_functions = {'plotid': 'first', 'lon': 'first', 'lat': 'first', 'geometry': 'first', 'pl_id': 'first', 'pl_cluster': 'first', 'email1': 'first', 'email2': 'first','email3': 'first','Cambio0008': 'first', 'Coincidencia0008': 'first', 'Cambio0812': 'first', 'Coincidencia0812': 'first', 'Cambio1213': 'first', 'Coincidencia1213': 'first', 'Cambio1314': 'first', 'Coincidencia1314': 'first', 'Cambio1415': 'first', 'Coincidencia1415': 'first', 'Cambio1516': 'first', 'Coincidencia1516': 'first', 'Cambio1617': 'first', 'Coincidencia1617': 'first', 'Cambio1718': 'first', 'Coincidencia1718': 'first', 'Cambio1819': 'first', 'Coincidencia1819': 'first', 'Cambio1920': 'first', 'Coincidencia1920': 'first', 'Cambio2021': 'first', 'Coincidencia2021': 'first', 'Cambio2122': 'first', 'Coincidencia2122': 'first'}
+#gdfchange = gdfSel[["plotid", "sampleid", "lon", "lat", "geometry", "pl_id", "pl_cluster", "pl_mon_images", "email1", "email2", "email3", 'Cambio0008', 'Coincidencia0008', 'Cambio0812', 'Coincidencia0812', 'Cambio1213', 'Coincidencia1213', 'Cambio1314', 'Coincidencia1314', 'Cambio1415', 'Coincidencia1415', 'Cambio1516', 'Coincidencia1516', 'Cambio1617', 'Coincidencia1617', 'Cambio1718', 'Coincidencia1718', 'Cambio1819', 'Coincidencia1819', 'Cambio1920', 'Coincidencia1920', 'Cambio2021', 'Coincidencia2021', 'Cambio2122', 'Coincidencia2122']]
+#aggregation_functions = {'plotid': 'first', 'lon': 'first', 'lat': 'first', 'geometry': 'first', 'pl_id': 'first', 'pl_cluster': 'first', 'email1': 'first', 'email2': 'first','email3': 'first','Cambio0008': 'first', 'Coincidencia0008': 'first', 'Cambio0812': 'first', 'Coincidencia0812': 'first', 'Cambio1213': 'first', 'Coincidencia1213': 'first', 'Cambio1314': 'first', 'Coincidencia1314': 'first', 'Cambio1415': 'first', 'Coincidencia1415': 'first', 'Cambio1516': 'first', 'Coincidencia1516': 'first', 'Cambio1617': 'first', 'Coincidencia1617': 'first', 'Cambio1718': 'first', 'Coincidencia1718': 'first', 'Cambio1819': 'first', 'Coincidencia1819': 'first', 'Cambio1920': 'first', 'Coincidencia1920': 'first', 'Cambio2021': 'first', 'Coincidencia2021': 'first', 'Cambio2122': 'first', 'Coincidencia2122': 'first'}
+# id columns
+gdfchange = gdfSel[["plotid", "sampleid", "lon", "lat", "geometry", "pl_cluster", "pl_mon_images", "email1", "email2", "email3", 'Cambio0008', 'Coincidencia0008', 'Cambio0812', 'Coincidencia0812', 'Cambio1213', 'Coincidencia1213', 'Cambio1314', 'Coincidencia1314', 'Cambio1415', 'Coincidencia1415', 'Cambio1516', 'Coincidencia1516', 'Cambio1617', 'Coincidencia1617', 'Cambio1718', 'Coincidencia1718', 'Cambio1819', 'Coincidencia1819', 'Cambio1920', 'Coincidencia1920', 'Cambio2021', 'Coincidencia2021', 'Cambio2122', 'Coincidencia2122']]
+aggregation_functions = {'plotid': 'first', 'lon': 'first', 'lat': 'first', 'geometry': 'first', 'pl_cluster': 'first', 'email1': 'first', 'email2': 'first','email3': 'first','Cambio0008': 'first', 'Coincidencia0008': 'first', 'Cambio0812': 'first', 'Coincidencia0812': 'first', 'Cambio1213': 'first', 'Coincidencia1213': 'first', 'Cambio1314': 'first', 'Coincidencia1314': 'first', 'Cambio1415': 'first', 'Coincidencia1415': 'first', 'Cambio1516': 'first', 'Coincidencia1516': 'first', 'Cambio1617': 'first', 'Coincidencia1617': 'first', 'Cambio1718': 'first', 'Coincidencia1718': 'first', 'Cambio1819': 'first', 'Coincidencia1819': 'first', 'Cambio1920': 'first', 'Coincidencia1920': 'first', 'Cambio2021': 'first', 'Coincidencia2021': 'first', 'Cambio2122': 'first', 'Coincidencia2122': 'first'}
+
 gdfchangeN = gdfchange.groupby(gdfchange['plotid']).aggregate(aggregation_functions)
 
 # %%
@@ -437,5 +444,5 @@ print("Clases de cambio 2021-2022: ", gdfchangeN['Cambio2122'].value_counts())
 
 # %%
 # save as csv
-gdfchangeN.to_csv("./Datos/Ecuador/BSVTBA/ResultadosCambios_BSVTBA_02102023.csv")
+gdfchangeN.to_csv("./MAATE2023/Resultados2/10_NBE/ResultadosCambios_NBE_11042024.csv")
 print("The CSV file has been saved")
